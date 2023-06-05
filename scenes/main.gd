@@ -73,6 +73,58 @@ func _on_noise_changed() -> void:
 			else:
 				# Hide vertex
 				vertex.set_visible(false)
+	# Clear old edges
+	for child in node2d.get_children():
+		if child is Line2D:
+			child.queue_free()
+	# Draw edges
+	for x in range(len(vertices) - 1):
+		for y in range(len(vertices[x]) - 1):
+			var vertex : MeshInstance2D = vertices[x][y]
+			# Check that vertex is in cell with sign change
+			if vertex.is_visible():
+				# Get points of cell
+				var cell := [
+					points[x][y],
+					points[x + 1][y],
+					points[x][y + 1],
+					points[x + 1][y + 1]
+				]
+				# Check which edges have a sign change
+				var cell_sign := [
+					sign(noise.get_noise_2dv(cell[0].get_position())),
+					sign(noise.get_noise_2dv(cell[1].get_position())),
+					sign(noise.get_noise_2dv(cell[2].get_position())),
+					sign(noise.get_noise_2dv(cell[3].get_position()))
+				]
+				var edges := [
+					cell_sign[0] + cell_sign[1] == 0,
+					cell_sign[1] + cell_sign[3] == 0,
+					cell_sign[3] + cell_sign[2] == 0,
+					cell_sign[2] + cell_sign[0] == 0
+				]
+				for i in len(edges):
+					# If edge has sign change
+					if edges[i]:
+						# Get adjacent vertex across edge
+						var coords := Vector2i(0, 0)
+						if i == 0:
+							coords = Vector2i(x, y - 1)
+						elif i == 1:
+							coords = Vector2i(x + 1, y)
+						elif i == 2:
+							coords = Vector2i(x, y + 1)
+						elif i == 3:
+							coords = Vector2i(x - 1, y)
+						if coords.x >= 0 and coords.y >= 0:
+							var adj_vertex : MeshInstance2D = vertices[coords.x][coords.y]
+							# Draw line to adjacent vertex across edge
+							var line := Line2D.new()
+							line.add_point(vertex.get_position())
+							line.add_point(adj_vertex.get_position())
+							line.set_width(point_size / 2.)
+							line.set_default_color(Color(1, 0, 0))
+							node2d.add_child(line)
 
 
 func create_point(v: Vector2, c: Color) -> MeshInstance2D:
@@ -88,7 +140,7 @@ func create_point(v: Vector2, c: Color) -> MeshInstance2D:
 func get_vertex_position(x: int, y: int) -> Vector2:
 	var point_tl : MeshInstance2D = points[x][y]
 	var point_tl_position := point_tl.get_position()
-	return point_tl.get_position() + Vector2(cell_size/2., cell_size/2.)
+	return point_tl.get_position() + Vector2(cell_size / 2., cell_size / 2.)
 
 
 func get_noise_color(v: Vector2) -> Color:
