@@ -31,19 +31,34 @@ theme_override_constants/separation = 0
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="Label" type="Label" parent="HBoxContainer/Panel/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Seed
+"
+
+[node name="SpinBox" type="SpinBox" parent="HBoxContainer/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="HBoxContainer/Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Frequency"
 
-[node name="HSlider" type="HSlider" parent="HBoxContainer/Panel/VBoxContainer"]
+[node name="HSlider" type="HSlider" parent="HBoxContainer/Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 min_value = 0.001
 max_value = 0.1
@@ -55,5 +70,5 @@ layout_mode = 2
 size_flags_horizontal = 3
 texture = SubResource("NoiseTexture2D_rgkhy")
 
-[connection signal="value_changed" from="HBoxContainer/Panel/VBoxContainer/HSlider" to="." method="_on_frequency_slider_value_changed"]
+[connection signal="value_changed" from="HBoxContainer/Panel/MarginContainer/VBoxContainer/HSlider" to="." method="_on_frequency_slider_value_changed"]
 [connection signal="resized" from="HBoxContainer/TextureRect" to="." method="_on_texture_rect_resized"]
