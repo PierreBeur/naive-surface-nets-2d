@@ -7,19 +7,12 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	set_texture_size()
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
-
-
-func set_texture_size():
-	if texture_rect:
-		var texture_rect_size := texture_rect.get_size() as Vector2i
-		texture.set_width(texture_rect_size.x)
-		texture.set_height(texture_rect_size.y)
 
 
 func _on_seed_spin_box_value_changed(value):
