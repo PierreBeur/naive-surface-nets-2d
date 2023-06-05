@@ -6,6 +6,8 @@
 fractal_type = 0
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_rgkhy"]
+width = 952
+height = 648
 generate_mipmaps = false
 noise = SubResource("FastNoiseLite_ijwg3")
 
@@ -82,4 +84,3 @@ texture = SubResource("NoiseTexture2D_rgkhy")
 
 [connection signal="value_changed" from="HBoxContainer/Panel/MarginContainer/VBoxContainer/SpinBox" to="." method="_on_seed_spin_box_value_changed"]
 [connection signal="value_changed" from="HBoxContainer/Panel/MarginContainer/VBoxContainer/HSlider" to="." method="_on_frequency_slider_value_changed"]
-[connection signal="resized" from="HBoxContainer/Control/TextureRect" to="." method="_on_texture_rect_resized"]
