@@ -82,5 +82,20 @@ grow_vertical = 2
 size_flags_horizontal = 3
 texture = SubResource("NoiseTexture2D_rgkhy")
 
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="HBoxContainer/Control/SubViewportContainer"]
+transparent_bg = true
+size = Vector2i(952, 648)
+
+[node name="Node2D" type="Node2D" parent="HBoxContainer/Control/SubViewportContainer/SubViewport"]
+
 [connection signal="value_changed" from="HBoxContainer/Panel/MarginContainer/VBoxContainer/SpinBox" to="." method="_on_seed_spin_box_value_changed"]
 [connection signal="value_changed" from="HBoxContainer/Panel/MarginContainer/VBoxContainer/HSlider" to="." method="_on_frequency_slider_value_changed"]
