@@ -1,6 +1,6 @@
 extends Control
 
-@onready var texture_rect : TextureRect = $HBoxContainer/TextureRect
+@onready var texture_rect : TextureRect = $HBoxContainer/Control/TextureRect
 @onready var texture : NoiseTexture2D = texture_rect.get_texture()
 @onready var noise := texture.get_noise()
 
