@@ -11,13 +11,13 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 
 func set_texture_size():
 	if texture_rect:
-		var texture_rect_size := texture_rect.get_size()
+		var texture_rect_size := texture_rect.get_size() as Vector2i
 		texture.set_width(texture_rect_size.x)
 		texture.set_height(texture_rect_size.y)
 
