@@ -70,5 +70,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 texture = SubResource("NoiseTexture2D_rgkhy")
 
+[connection signal="value_changed" from="HBoxContainer/Panel/MarginContainer/VBoxContainer/SpinBox" to="." method="_on_seed_spin_box_value_changed"]
 [connection signal="value_changed" from="HBoxContainer/Panel/MarginContainer/VBoxContainer/HSlider" to="." method="_on_frequency_slider_value_changed"]
 [connection signal="resized" from="HBoxContainer/TextureRect" to="." method="_on_texture_rect_resized"]
