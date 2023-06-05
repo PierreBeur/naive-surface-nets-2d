@@ -1,6 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://csh3flnexrcrj"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ijwg3"]
+fractal_type = 0
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_rgkhy"]
 generate_mipmaps = false
