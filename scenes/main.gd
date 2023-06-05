@@ -22,10 +22,6 @@ func set_texture_size():
 		texture.set_height(texture_rect_size.y)
 
 
-func _on_texture_rect_resized():
-	set_texture_size()
-
-
 func _on_seed_spin_box_value_changed(value):
 	noise.set_seed(value)
 
