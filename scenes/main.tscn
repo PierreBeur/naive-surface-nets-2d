@@ -93,6 +93,7 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="HBoxContainer/Control/SubViewportContainer"]
 transparent_bg = true
+msaa_2d = 3
 size = Vector2i(952, 648)
 
 [node name="Node2D" type="Node2D" parent="HBoxContainer/Control/SubViewportContainer/SubViewport"]
