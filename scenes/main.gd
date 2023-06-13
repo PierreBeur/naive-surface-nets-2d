@@ -119,11 +119,9 @@ func _on_noise_changed() -> void:
 						if coords.x >= 0 and coords.y >= 0:
 							var adj_vertex : MeshInstance2D = vertices[coords.x][coords.y]
 							# Draw line to adjacent vertex across edge
-							var line := Line2D.new()
-							line.add_point(vertex.get_position())
-							line.add_point(adj_vertex.get_position())
-							line.set_width(point_size / 2.)
-							line.set_default_color(Color(1, 0, 0))
+							var start := vertex.get_position()
+							var end := adj_vertex.get_position()
+							var line := create_line(start, end)
 							node2d.add_child(line)
 
 
@@ -135,6 +133,15 @@ func create_point(v: Vector2, c: Color) -> MeshInstance2D:
 	mesh_instance.set_modulate(c)
 	node2d.add_child(mesh_instance)
 	return mesh_instance
+
+
+func create_line(start: Vector2, end: Vector2) -> Line2D:
+	var line := Line2D.new()
+	line.add_point(start)
+	line.add_point(end)
+	line.set_width(point_size / 2.)
+	line.set_default_color(Color(1, 0, 0))
+	return line
 
 
 func get_vertex_position(x: int, y: int) -> Vector2:
