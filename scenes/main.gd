@@ -82,8 +82,13 @@ func _on_noise_changed() -> void:
 				noise.get_noise_2dv(cell[2].get_position()),
 				noise.get_noise_2dv(cell[3].get_position())
 			]
-			var inside : bool = (cell_noise[0] <= 0.) and (cell_noise[1] <= 0.) and (cell_noise[2] <= 0.) and (cell_noise[3] <= 0.)
-			var outside : bool = (cell_noise[0] > 0.) and (cell_noise[1] > 0.) and (cell_noise[2] > 0.) and (cell_noise[3] > 0.)
+			var inside := true
+			var outside := true
+			for c_n in cell_noise:
+				if c_n > 0.:
+					inside = false
+				if c_n <= 0.:
+					outside = false
 			if not (inside or outside):
 				# Update vertex position
 				vertex.set_position(get_vertex_position(x, y))
