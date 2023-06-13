@@ -191,24 +191,39 @@ func get_vertex_position(x: int, y: int) -> Vector2:
 	# Get noise values
 	var cell_noise := []
 	for pos in cell_positions:
-		cell_noise.append(abs(noise.get_noise_2dv(pos)))
-	var cell_noise_max : float = cell_noise.max()
-	# Determine weights
-	var cell_weights := []
-	for cn in cell_noise:
-		var weight : float = cell_noise_max - cn
-		cell_weights.append(weight)
-	# Normalize weights
-	var sum := 0.
-	for weight in cell_weights:
-		sum += weight
-	var norm_weights := []
-	for weight in cell_weights:
-		norm_weights.append(weight / sum)
-	# Find weighted average
-	var pos := Vector2(0, 0)
+		cell_noise.append(noise.get_noise_2dv(pos))
+	# Approximate position of zero value
+	var edge_zeroes := [
+		cell_noise[0] / (cell_noise[0] - cell_noise[1]),
+		cell_noise[1] / (cell_noise[1] - cell_noise[3]),
+		cell_noise[2] / (cell_noise[2] - cell_noise[3]),
+		cell_noise[0] / (cell_noise[0] - cell_noise[2])
+	]
+	var edge_zeroes_pos := []
 	for i in range(4):
-		pos += norm_weights[i] * cell_positions[i]
+		var edge_zero : float = edge_zeroes[i]
+		if edge_zero >= 0.0 and edge_zero <= 1.0:
+			var point_a : Vector2
+			var point_b : Vector2
+			if i == 0:
+				point_a = cell_positions[0]
+				point_b = cell_positions[1]
+			elif i == 1:
+				point_a = cell_positions[1]
+				point_b = cell_positions[3]
+			elif i == 2:
+				point_a = cell_positions[2]
+				point_b = cell_positions[3]
+			elif i == 3:
+				point_a = cell_positions[0]
+				point_b = cell_positions[2]
+			var avg : Vector2 = (1.0 - edge_zero) * point_a + edge_zero * point_b
+			edge_zeroes_pos.append(avg)
+	# Average zero points
+	var pos := Vector2(0, 0)
+	for zero_point in edge_zeroes_pos:
+		pos += zero_point
+	pos /= len(edge_zeroes_pos)
 	return pos
 
 
