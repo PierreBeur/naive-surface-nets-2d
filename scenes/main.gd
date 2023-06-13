@@ -10,6 +10,7 @@ var cell_size := 30
 
 var grid_points := []
 var vertices := []
+var edges := []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -31,6 +32,24 @@ func _ready() -> void:
 			var vertex := create_point(get_vertex_position(x, y), Color(1., 0., 0.))
 			col.append(vertex)
 		vertices.append(col)
+	# Create potential edges
+	for x in range(len(vertices) - 1):
+		var col := []
+		for y in range(len(vertices[x]) - 1):
+			var cell := []
+			var vertex : Vector2 = vertices[x][y].get_position()
+			var adj_vertices := [
+				vertices[x][y - 1].get_position(),
+				vertices[x + 1][y].get_position(),
+				vertices[x][y + 1].get_position(),
+				vertices[x - 1][y].get_position()
+			]
+			for adj_vertex in adj_vertices:
+				# Draw line to adjacent vertex
+				var line := create_line(vertex, adj_vertex)
+				cell.append(line)
+			col.append(cell)
+		edges.append(col)
 	# Update vertices
 	_on_noise_changed()
 
@@ -73,11 +92,12 @@ func _on_noise_changed() -> void:
 			else:
 				# Hide vertex
 				vertex.set_visible(false)
-	# Clear old edges
-	for child in node2d.get_children():
-		if child is Line2D:
-			child.queue_free()
-	# Draw edges
+	# Hide all edges
+	for col in edges:
+		for cell in col:
+			for line in cell:
+				line.set_visible(false)
+	# Update edges
 	for x in range(len(vertices) - 1):
 		for y in range(len(vertices[x]) - 1):
 			var vertex : MeshInstance2D = vertices[x][y]
@@ -90,6 +110,8 @@ func _on_noise_changed() -> void:
 					grid_points[x][y + 1],
 					grid_points[x + 1][y + 1]
 				]
+				# Get lines of cell
+				var cell_lines = edges[x][y]
 				# Check which edges have a sign change
 				var cell_sign := [
 					sign(noise.get_noise_2dv(cell[0].get_position())),
@@ -118,10 +140,13 @@ func _on_noise_changed() -> void:
 							coords = Vector2i(x - 1, y)
 						if coords.x >= 0 and coords.y >= 0:
 							var adj_vertex : MeshInstance2D = vertices[coords.x][coords.y]
-							# Draw line to adjacent vertex across edge
+							# Update line to adjacent vertex across edge
+							var cell_line : Line2D = cell_lines[i]
 							var start := vertex.get_position()
 							var end := adj_vertex.get_position()
-							create_line(start, end)
+							cell_line.set_point_position(0, start)
+							cell_line.set_point_position(1, end)
+							cell_line.set_visible(true)
 
 
 func create_point(v: Vector2, c: Color) -> MeshInstance2D:
