@@ -97,15 +97,15 @@ func _on_noise_changed() -> void:
 					sign(noise.get_noise_2dv(cell[2].get_position())),
 					sign(noise.get_noise_2dv(cell[3].get_position()))
 				]
-				var edges := [
+				var edge_sign := [
 					cell_sign[0] + cell_sign[1] == 0,
 					cell_sign[1] + cell_sign[3] == 0,
 					cell_sign[3] + cell_sign[2] == 0,
 					cell_sign[2] + cell_sign[0] == 0
 				]
-				for i in len(edges):
+				for i in len(edge_sign):
 					# If edge has sign change
-					if edges[i]:
+					if edge_sign[i]:
 						# Get adjacent vertex across edge
 						var coords := Vector2i(0, 0)
 						if i == 0:
@@ -121,8 +121,7 @@ func _on_noise_changed() -> void:
 							# Draw line to adjacent vertex across edge
 							var start := vertex.get_position()
 							var end := adj_vertex.get_position()
-							var line := create_line(start, end)
-							node2d.add_child(line)
+							create_line(start, end)
 
 
 func create_point(v: Vector2, c: Color) -> MeshInstance2D:
@@ -141,6 +140,7 @@ func create_line(start: Vector2, end: Vector2) -> Line2D:
 	line.add_point(end)
 	line.set_width(point_size / 2.)
 	line.set_default_color(Color(1, 0, 0))
+	node2d.add_child(line)
 	return line
 
 
