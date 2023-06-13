@@ -8,12 +8,12 @@ var cell_size := 30
 @onready var noise := texture.get_noise()
 @onready var node2d := $HBoxContainer/Control/SubViewportContainer/SubViewport/Node2D
 
-var points := []
+var grid_points := []
 var vertices := []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	# Create points
+	# Create grid points
 	var texture_rect_size := texture_rect.get_size()
 	for x in range(cell_size/2., texture_rect_size.x, cell_size):
 		var col := []
@@ -22,11 +22,11 @@ func _ready() -> void:
 			var point_color := get_noise_color(point_position)
 			var point := create_point(point_position, point_color)
 			col.append(point)
-		points.append(col)
+		grid_points.append(col)
 	# Create potential vertices
-	for x in range(len(points) - 1):
+	for x in range(len(grid_points) - 1):
 		var col := []
-		for y in range(len(points[x]) - 1):
+		for y in range(len(grid_points[x]) - 1):
 			# Place vertex
 			var vertex := create_point(get_vertex_position(x, y), Color(1., 0., 0.))
 			col.append(vertex)
@@ -49,12 +49,12 @@ func _on_noise_changed() -> void:
 	for x in len(vertices):
 		for y in len(vertices[x]):
 			var vertex : MeshInstance2D = vertices[x][y]
-			# Get points of cell
+			# Get grid points of cell
 			var cell := [
-				points[x][y],
-				points[x + 1][y],
-				points[x][y + 1],
-				points[x + 1][y + 1]
+				grid_points[x][y],
+				grid_points[x + 1][y],
+				grid_points[x][y + 1],
+				grid_points[x + 1][y + 1]
 			]
 			# Check for sign change
 			var cell_noise := [
@@ -83,12 +83,12 @@ func _on_noise_changed() -> void:
 			var vertex : MeshInstance2D = vertices[x][y]
 			# Check that vertex is in cell with sign change
 			if vertex.is_visible():
-				# Get points of cell
+				# Get grid points of cell
 				var cell := [
-					points[x][y],
-					points[x + 1][y],
-					points[x][y + 1],
-					points[x + 1][y + 1]
+					grid_points[x][y],
+					grid_points[x + 1][y],
+					grid_points[x][y + 1],
+					grid_points[x + 1][y + 1]
 				]
 				# Check which edges have a sign change
 				var cell_sign := [
@@ -144,7 +144,7 @@ func get_vertex_position(x: int, y: int) -> Vector2:
 
 
 func get_noise_color(v: Vector2) -> Color:
-	var value := 0. if noise.get_noise_2dv(v) <= 0 else 1.
+	var value := 0 if noise.get_noise_2dv(v) <= 0 else 1
 	return Color(value, value, value)
 
 
