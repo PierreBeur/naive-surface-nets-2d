@@ -1,7 +1,8 @@
 extends Control
 
-var point_size := 5
-var cell_size := 20
+var point_size := 7
+var line_width := 2
+var cell_size := 30
 var vertex_color := Color(1, 0, 0)
 var line_color := Color(1, 0, 0)
 
@@ -170,7 +171,7 @@ func create_line(start: Vector2, end: Vector2) -> Line2D:
 	var line := Line2D.new()
 	line.add_point(start)
 	line.add_point(end)
-	line.set_width(point_size / 2.)
+	line.set_width(line_width)
 	line.set_modulate(line_color)
 	node2d.add_child(line)
 	return line
