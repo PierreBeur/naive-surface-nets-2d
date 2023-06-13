@@ -1,7 +1,9 @@
 extends Control
 
 var point_size := 5
-var cell_size := 30
+var cell_size := 20
+var vertex_color := Color(1, 0, 0)
+var line_color := Color(1, 0, 0)
 
 @onready var texture_rect : TextureRect = $HBoxContainer/Control/TextureRect
 @onready var texture : NoiseTexture2D = texture_rect.get_texture()
@@ -29,7 +31,7 @@ func _ready() -> void:
 		var col := []
 		for y in range(len(grid_points[x]) - 1):
 			# Place vertex
-			var vertex := create_point(get_vertex_position(x, y), Color(1., 0., 0.))
+			var vertex := create_point(get_vertex_position(x, y), vertex_color)
 			col.append(vertex)
 		vertices.append(col)
 	# Create potential edges
@@ -62,7 +64,7 @@ func _process(_delta) -> void:
 func _on_noise_changed() -> void:
 	# Update color of each point
 	for child in node2d.get_children():
-		if not child.get_modulate() == Color(1., 0., 0.):
+		if not child.get_modulate() == vertex_color:
 			child.set_modulate(get_noise_color(child.get_position()))
 	# Update vertices
 	for x in len(vertices):
@@ -169,7 +171,7 @@ func create_line(start: Vector2, end: Vector2) -> Line2D:
 	line.add_point(start)
 	line.add_point(end)
 	line.set_width(point_size / 2.)
-	line.set_default_color(Color(1, 0, 0))
+	line.set_modulate(line_color)
 	node2d.add_child(line)
 	return line
 
