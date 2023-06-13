@@ -177,9 +177,39 @@ func create_line(start: Vector2, end: Vector2) -> Line2D:
 
 
 func get_vertex_position(x: int, y: int) -> Vector2:
-	var point_tl : MeshInstance2D = points[x][y]
-	var point_tl_position := point_tl.get_position()
-	return point_tl.get_position() + Vector2(cell_size / 2., cell_size / 2.)
+	# Get grid points of cell
+	var cell := [
+		grid_points[x][y],
+		grid_points[x + 1][y],
+		grid_points[x][y + 1],
+		grid_points[x + 1][y + 1]
+	]
+	# Get positions of grid points of cell
+	var cell_positions := []
+	for grid_point in cell:
+		cell_positions.append(grid_point.get_position())
+	# Get noise values
+	var cell_noise := []
+	for pos in cell_positions:
+		cell_noise.append(abs(noise.get_noise_2dv(pos)))
+	var cell_noise_max : float = cell_noise.max()
+	# Determine weights
+	var cell_weights := []
+	for cn in cell_noise:
+		var weight : float = cell_noise_max - cn
+		cell_weights.append(weight)
+	# Normalize weights
+	var sum := 0.
+	for weight in cell_weights:
+		sum += weight
+	var norm_weights := []
+	for weight in cell_weights:
+		norm_weights.append(weight / sum)
+	# Find weighted average
+	var pos := Vector2(0, 0)
+	for i in range(4):
+		pos += norm_weights[i] * cell_positions[i]
+	return pos
 
 
 func get_noise_color(v: Vector2) -> Color:
