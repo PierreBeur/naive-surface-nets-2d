@@ -6,10 +6,10 @@ var cell_size := 30
 var vertex_color := Color(1, 0, 0)
 var line_color := Color(1, 0, 0)
 
-@onready var texture_rect : TextureRect = $HBoxContainer/Control/TextureRect
+@onready var texture_rect : TextureRect = $TextureRect
 @onready var texture : NoiseTexture2D = texture_rect.get_texture()
 @onready var noise := texture.get_noise()
-@onready var node2d := $HBoxContainer/Control/SubViewportContainer/SubViewport/Node2D
+@onready var node2d := $Node2D
 
 var grid_points := []
 var vertices := []
