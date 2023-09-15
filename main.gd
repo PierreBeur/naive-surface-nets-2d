@@ -6,8 +6,8 @@ var cell_size := 30
 var vertex_color := Color(1, 0, 0)
 var line_color := Color(1, 0, 0)
 
-@onready var texture_rect : TextureRect = $TextureRect
-@onready var texture : NoiseTexture2D = texture_rect.get_texture()
+@onready var texture_rect := $TextureRect as TextureRect
+@onready var texture := texture_rect.get_texture() as NoiseTexture2D
 @onready var noise := texture.get_noise()
 @onready var node2d := $Node2D
 
@@ -237,12 +237,12 @@ func _on_noise_changed() -> void:
 	update()
 
 
-func _on_seed_spin_box_value_changed(value) -> void:
+func _on_seed_spin_box_value_changed(value: int) -> void:
 	noise.set_seed(value)
 	_on_noise_changed()
 
 
-func _on_frequency_slider_value_changed(value) -> void:
+func _on_frequency_slider_value_changed(value: float) -> void:
 	noise.set_frequency(value)
 	_on_noise_changed()
 
