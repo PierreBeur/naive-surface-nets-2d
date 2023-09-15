@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://csh3flnexrcrj"]
 
-[ext_resource type="Script" path="res://scenes/main.gd" id="1_63jlg"]
+[ext_resource type="Script" path="res://main.gd" id="1_14lke"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ijwg3"]
 fractal_type = 0
@@ -18,7 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_63jlg")
+script = ExtResource("1_14lke")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
