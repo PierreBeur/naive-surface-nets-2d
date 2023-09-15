@@ -19,11 +19,15 @@ var edges := []
 func _ready() -> void:
 	# Create grid points
 	var texture_rect_size := texture_rect.get_size()
-	var offset := cell_size/2.
-	for x in range(offset, texture_rect_size.x, cell_size):
+	var cell_count := Vector2i(texture_rect_size / cell_size)
+	var cell_size_mod := texture_rect_size / Vector2(cell_count)
+	var cell_margin := 4
+	var offset := -1.5 * cell_size_mod
+	print(cell_size_mod)
+	for x in range(cell_count.x + cell_margin):
 		var col := []
-		for y in range(offset, texture_rect_size.y, cell_size):
-			var point_position := Vector2(x, y)
+		for y in range(cell_count.y + cell_margin):
+			var point_position := Vector2(x, y) * cell_size_mod + offset
 			var point_color := get_noise_color(point_position)
 			var point := create_point(point_position, point_color)
 			col.append(point)
