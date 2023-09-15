@@ -54,7 +54,7 @@ func _ready() -> void:
 			col.append(cell)
 		edges.append(col)
 	# Update vertices
-	_on_noise_changed()
+	update()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -62,7 +62,7 @@ func _process(_delta) -> void:
 	pass
 
 
-func _on_noise_changed() -> void:
+func update() -> void:
 	# Update color of each point
 	for child in node2d.get_children():
 		if not child.get_modulate() == vertex_color:
@@ -231,6 +231,10 @@ func get_vertex_position(x: int, y: int) -> Vector2:
 func get_noise_color(v: Vector2) -> Color:
 	var value := 0 if noise.get_noise_2dv(v) <= 0 else 1
 	return Color(value, value, value)
+
+
+func _on_noise_changed() -> void:
+	update()
 
 
 func _on_seed_spin_box_value_changed(value) -> void:
