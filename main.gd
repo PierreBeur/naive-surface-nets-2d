@@ -17,6 +17,16 @@ var edges := []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	build()
+	update()
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta) -> void:
+	pass
+
+
+func build() -> void:
 	# Create grid points
 	var texture_rect_size := texture_rect.get_size()
 	var cell_count := Vector2i(texture_rect_size / cell_size)
@@ -58,13 +68,6 @@ func _ready() -> void:
 				cell.append(line)
 			col.append(cell)
 		edges.append(col)
-	# Update vertices
-	update()
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta) -> void:
-	pass
 
 
 func update() -> void:
