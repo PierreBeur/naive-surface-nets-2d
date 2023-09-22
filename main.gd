@@ -33,7 +33,6 @@ func build() -> void:
 	var cell_size_mod := texture_rect_size / Vector2(cell_count)
 	var cell_margin := 4
 	var offset := -1.5 * cell_size_mod
-	print(cell_size_mod)
 	for x in range(cell_count.x + cell_margin):
 		var col := []
 		for y in range(cell_count.y + cell_margin):
