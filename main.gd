@@ -71,10 +71,10 @@ func build() -> void:
 
 
 func update() -> void:
-	# Update color of each point
-	for child in node2d.get_children():
-		if not child.get_modulate() == vertex_color:
-			child.set_modulate(get_noise_color(child.get_position()))
+	# Update color of each grid point
+	for col in grid_points:
+		for grid_point in col:
+			grid_point.set_modulate(get_noise_color(grid_point.get_position()))
 	# Update vertices
 	for x in len(vertices):
 		for y in len(vertices[x]):
